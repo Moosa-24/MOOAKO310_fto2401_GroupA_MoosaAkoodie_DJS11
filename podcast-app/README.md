@@ -73,9 +73,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 User story checklist:
 1. Setup and Deployment: Project is deployed to a custom Netlify URL - DONE
 2. User sees a custom icon in the tab window. All favicon information has been created and added correctly via realfavicongenerator.net - DONE
+3. Metatag information has been created and added via metatags.io. Be mindful to manually replace all URL values (especially image URL) to absolute Netlify URL values (you will need to deploy to Netlify first) - CHECKING
 
-
-3. Metatag information has been created and added via metatags.io. Be mindful to manually replace all URL values (especially image URL) to absolute Netlify URL values (you will need to deploy to Netlify first) -
 4. User sees the name of all available shows on the platform -
 5. User sees shows sorted alphabetically when the app loads (default sorting) -
 6. User has a way to listen to any episode in a season for a show (note there is a single placeholder audio track for all shows) -
