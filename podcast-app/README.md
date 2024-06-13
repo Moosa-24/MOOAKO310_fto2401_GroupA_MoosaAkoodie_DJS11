@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
@@ -74,8 +74,8 @@ User story checklist:
 1. Setup and Deployment: Project is deployed to a custom Netlify URL - DONE
 2. User sees a custom icon in the tab window. All favicon information has been created and added correctly via realfavicongenerator.net - DONE
 3. Metatag information has been created and added via metatags.io. Be mindful to manually replace all URL values (especially image URL) to absolute Netlify URL values (you will need to deploy to Netlify first) - DONE
+4. User sees the name of all available shows on the platform - DONE
 
-4. User sees the name of all available shows on the platform -
 5. User sees shows sorted alphabetically when the app loads (default sorting) -
 6. User has a way to listen to any episode in a season for a show (note there is a single placeholder audio track for all shows) -
 7. User is able to see a view where only episodes for a specific selected season are shown (Note that this can be a page view, a modal, or toggle dropdown - up to developer's design choice) - 
