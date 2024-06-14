@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchPreviews } from '../services/Api';
+import '../App.css';
 
 const PodcastList = () => {
   const [podcasts, setPodcasts] = useState([]);
@@ -9,15 +10,16 @@ const PodcastList = () => {
   }, []);
 
   return (
-    <div>
+    <div className="PodcastListContainer">
       <h2>Podcast List</h2>
-      <ul>
+      <div className="PodcastList">
         {podcasts.map(podcast => (
-          <li key={podcast.id}>
-            {podcast.title}
-          </li>
+          <div key={podcast.id} className="PodcastItem">
+            <img src={podcast.image} alt={podcast.title} className="PodcastItemImage" />
+            <h3 className="PodcastItemTitle">{podcast.title}</h3>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
