@@ -5,6 +5,12 @@ export const fetchPreviews = async () => {
     const response = await fetch(API_BASE_URL);
     const data = await response.json();
     
+    // Ensure data handling matches the structure returned by API
+    // For example, if API returns an array directly, handle it accordingly
+    if (!Array.isArray(data)) {
+      throw new Error('Unexpected data structure for previews');
+    }
+
     // Sort data alphabetically by title
     data.sort((a, b) => a.title.localeCompare(b.title));
 

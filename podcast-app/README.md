@@ -78,6 +78,7 @@ User story checklist:
 5. User sees shows sorted alphabetically when the app loads (default sorting) - DONE
 
 6. User has a way to listen to any episode in a season for a show (note there is a single placeholder audio track for all shows) -
+
 7. User is able to see a view where only episodes for a specific selected season are shown (Note that this can be a page view, a modal, or toggle dropdown - up to developer's design choice) - 
 8. User is able to toggle between different seasons for the same show - 
 9. User sees preview image of shows when browsing - 
