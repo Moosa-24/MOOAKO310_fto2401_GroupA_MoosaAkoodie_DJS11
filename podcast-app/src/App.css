@@ -1,9 +1,138 @@
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: black; 
+  color: white;
+}
+
+.App-logo {
+  position: absolute;
+  top: 10%;
+  pointer-events: none;
+  animation: brightDarkAnimation 10s infinite; /* Apply the animation */
+}
+
+@keyframes brightDarkAnimation {
+  0% {
+    filter: brightness(3) invert(0); /* Bright */
+  }
+  25% {
+    filter: brightness(0.5) invert(1); /* Dark */
+  }
+  50% {
+    filter: brightness(3) invert(0); /* Bright */
+  }
+  75% {
+    filter: brightness(0.5) invert(1); /* Bright */
+  }
+  100% {
+    filter: brightness(3) invert(0); /* Bright */
+  }
+}
+
+.loading-text {
+  position: absolute;
+  top: 70%;
+  right: 44%;
+  font-size: 250%; /* Adjust the font size as needed */
+}
+
+.home-btn {
+  position: absolute;
+  top: 77%;
+  right: 39%;
+  width: 20%; /* Adjust the width as needed */
+  height: 8%; /* Adjust the height as needed */
+  font-size: 110%;
+  border: solid 1px rgba(0, 214, 252, 0.3);
+  background-image: linear-gradient(to right, rgba(0, 67, 65, 0.84) 0%, #111d1d 25%,  #111d1d 75%, rgba(0, 67, 65, 0.84) 100%);
+  color: white;
+  font-family: "Canaro", sans-serif;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 1.8px;
+  padding: 0;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.home-btn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0; 
+  width: 0%; 
+  height: 1px;
+  transform: translateY(-1px);
+  background: rgba(0, 214, 252, 1);
+  transition: all 0.25s ease;
+}
+
+.home-btn:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0; 
+  width: 0%;
+  height: 1px;
+  transform: translateY(1px);
+  background: rgb(113, 203, 219);
+  transition: all 0.25s ease;
+}
+
+.home-btn:hover {
+  box-shadow: 1px 1px 30px rgba(0, 214, 252, 0.3);
+  color: rgb(160, 234, 247);
+  text-shadow: 0 0 8px rgba(0, 214, 252, 0.4);
+  cursor: pointer;
+}
+
+.home-btn:hover:before {
+  left: 0; /* Ensure it stays at the left edge */
+  width: 100%; /* Maintain full width */
+}
+
+.home-btn:hover:after {
+  left: 0; /* Ensure it stays at the left edge */
+  width: 100%; /* Maintain full width */
+}
+
+.home-line:before {
+  content: "";
+  position: absolute;
+  bottom: 30%;
+  right: 0;
+  width: 1px;
+  height: 20px;
+  transform: translateX(1px);
+  background: rgba(0, 214, 252, 1);
+  transition: all 0.25s ease;
+}
+
+.home-line:after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 0;
+  width: 1px;
+  height: 20px;
+  transform: translateX(-1px);
+  background: rgba(0, 214, 252, 1);
+  transition: all 0.25s ease;
+}
+
 /* App container */
 .App {
-  text-align: center;
+  display: flex; /* Use flexbox to align items */
+  flex-direction: column; /* Column layout */
+  align-items: center; /* Center align items horizontally */
   background-color: #121212; /* Dark background */
   color: white;
   min-height: 100vh; /* Ensure full viewport height */
+  padding-bottom: 60px; /* Ensure space for fixed player */
 }
 
 /* Header styles */
@@ -15,30 +144,42 @@
   justify-content: space-between;
   padding: 0 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  width: 100%; /* Ensure header spans full width */
+  position: fixed; /* Fixed position */
+  top: 0; /* Stick to top */
+  z-index: 1000; /* Ensure it stays on top */
 }
 
-/* Additional header text styling */
 .header-text {
   height: 48px; /* Adjust to your content */
   line-height: 48px; /* Vertically center text */
 }
 
+/* Main content container */
+.MainContent {
+  width: 100%; /* Full width */
+  max-width: 1200px; /* Limit maximum width */
+  padding: 20px; /* Padding for content */
+  margin-top: 64px; /* Account for fixed header */
+  display: flex;
+  justify-content: center;
+}
+
 /* Styles for the podcast list */
-/* App container */
 .PodcastListContainer {
   background-color: #121212; /* Dark background */
   color: white;
   padding: 20px;
   font-family: Arial, sans-serif;
+  width: 100%; /* Full width */
+  max-width: 1200px; /* Limit maximum width */
 }
 
-/* Header styles */
 h2 {
   font-size: 1.5em;
   margin-bottom: 20px;
 }
 
-/* Styles for the podcast list */
 .PodcastList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -63,6 +204,23 @@ h2 {
 .PodcastItemTitle {
   font-size: 1.1em;
   padding: 10px 15px;
+}
+
+/* Podcast detail container */
+.PodcastDetailContainer {
+  max-width: 800px; /* Adjust the maximum width based on your design */
+  margin: 20px 0; /* Center align the container */
+  padding: 20px; /* Add padding for spacing */
+}
+
+.PodcastDetailImage {
+  max-width: 100%; /* Ensure the image scales properly */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px; /* Add bottom margin for spacing */
+}
+
+.PodcastDetailDescription {
+  margin-bottom: 20px; /* Add bottom margin for spacing */
 }
 
 /* Styles for the podcast player */
@@ -92,13 +250,13 @@ h2 {
 .PlayerControls {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center; /* Center align buttons */
   gap: 10px;
   margin-top: 10px;
 }
 
 .PlayerControls button {
-  background-color: #1db954; /* Spotify green */
+  background-color: #1db954;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -182,4 +340,38 @@ h2 {
 .ToggleSeasonsButton:focus,
 .CloseSeasonsButton:focus {
   outline: none;
+}
+
+
+.PodcastDetailContainer {
+  max-width: 800px; /* Adjust the maximum width based on your design */
+  margin: 0 auto; /* Center align the container */
+  padding: 20px; /* Add padding for spacing */
+}
+
+.PodcastDetailImage {
+  max-width: 100%; /* Ensure the image scales properly */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px; /* Add bottom margin for spacing */
+}
+
+.PodcastDetailDescription {
+  margin-bottom: 20px; /* Add bottom margin for spacing */
+}
+
+.PodcastSeasons {
+  /* Add styles for seasons if necessary */
+}
+
+.PodcastSeason {
+  /* Add styles for each season if necessary */
+}
+
+.PodcastSeason ul {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+}
+
+.PodcastSeason li {
+  margin-bottom: 10px; /* Add bottom margin for spacing between episodes */
 }
