@@ -24,6 +24,10 @@ const App = () => {
   return (
     <Router>
       <div className="App">
+        <header className="App-header">
+          <h1 className='header-text'>Podcast App</h1>
+        </header>
+
         <Routes>
           <Route path="/" element={<PodcastList setCurrentPodcast={setCurrentPodcast} />} />
           <Route path="/podcast/:id" element={<PodcastDetail setCurrentPodcast={setCurrentPodcast} />} />

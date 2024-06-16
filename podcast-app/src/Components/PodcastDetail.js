@@ -61,7 +61,7 @@ const PodcastDetail = ({ setCurrentPodcast }) => {
   }
 
   return (
-    <div className="PodcastDetailContainer">
+    <div className="PodcastDetailContainer" style={{ paddingTop: '50px' }}>
       <h2>{podcast.title}</h2>
       <img src={podcast.image} alt={podcast.title} className="PodcastDetailImage" />
       <div className="PodcastDetailDescription">{podcast.description}</div>
