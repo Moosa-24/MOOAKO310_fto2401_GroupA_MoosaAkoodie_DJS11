@@ -6,7 +6,6 @@ const PodcastPlayer = () => {
   const [currentSeason, setCurrentSeason] = useState(null); // Track current season
   const [episodes, setEpisodes] = useState([]);
   const [currentEpisode, setCurrentEpisode] = useState(null);
-  const [seasonsVisible, setSeasonsVisible] = useState(false); // State for showing/hiding seasons
   const [paused, setPaused] = useState(true); // State for pause/unpause
 
   useEffect(() => {
@@ -119,24 +118,9 @@ const PodcastPlayer = () => {
       }
     }
   };
-  
-  const switchSeason = (season) => {
-    setCurrentSeason(season);
-    setEpisodes(season.episodes);
-    setSeasonsVisible(false); // Hide seasons after selecting a season
-  };
-
-  const toggleSeasonsVisibility = () => {
-    setSeasonsVisible(!seasonsVisible);
-  };
-
-  const closeSeasonsList = () => {
-    setSeasonsVisible(false);
-  };
 
   return (
     <div className="Player">
-      <h2>Podcast Player</h2>
       <audio controls>
         <source src={currentEpisode ? currentEpisode.audio : ''} type="audio/mpeg" />
         Your browser does not support the audio element.
@@ -148,31 +132,6 @@ const PodcastPlayer = () => {
         <button onClick={fastForward}>↻</button>
         <button onClick={skipToNext}>↪</button>
       </div>
-      <div>
-        <h3>Switch Season</h3>
-        <button className="ToggleSeasonsButton" onClick={toggleSeasonsVisibility}>
-          {seasonsVisible ? 'Hide Seasons' : 'Show Seasons'}
-        </button>
-        {seasonsVisible && (
-          <ul className="SeasonsList">
-            {shows.map((show) => (
-              <li key={show.id}>
-                <h4>{show.title}</h4>
-                {show.seasons.length > 0 && (
-                  <button onClick={() => switchSeason(show.seasons[0])}>
-                    Season {show.seasons[0].number}
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      {seasonsVisible && (
-        <button className="CloseSeasonsButton" onClick={closeSeasonsList}>
-          Close Seasons
-        </button>
-      )}
     </div>
   );
 };

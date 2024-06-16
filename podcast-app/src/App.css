@@ -33,97 +33,6 @@
   }
 }
 
-.loading-text {
-  position: absolute;
-  top: 70%;
-  right: 44%;
-  font-size: 250%; /* Adjust the font size as needed */
-}
-
-.home-btn {
-  position: absolute;
-  top: 77%;
-  right: 39%;
-  width: 20%; /* Adjust the width as needed */
-  height: 8%; /* Adjust the height as needed */
-  font-size: 110%;
-  border: solid 1px rgba(0, 214, 252, 0.3);
-  background-image: linear-gradient(to right, rgba(0, 67, 65, 0.84) 0%, #111d1d 25%,  #111d1d 75%, rgba(0, 67, 65, 0.84) 100%);
-  color: white;
-  font-family: "Canaro", sans-serif;
-  text-transform: uppercase;
-  font-weight: normal;
-  letter-spacing: 1.8px;
-  padding: 0;
-  transition: all 0.25s ease;
-  outline: none;
-}
-
-.home-btn:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0; 
-  width: 0%; 
-  height: 1px;
-  transform: translateY(-1px);
-  background: rgba(0, 214, 252, 1);
-  transition: all 0.25s ease;
-}
-
-.home-btn:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  right: 0; 
-  width: 0%;
-  height: 1px;
-  transform: translateY(1px);
-  background: rgb(113, 203, 219);
-  transition: all 0.25s ease;
-}
-
-.home-btn:hover {
-  box-shadow: 1px 1px 30px rgba(0, 214, 252, 0.3);
-  color: rgb(160, 234, 247);
-  text-shadow: 0 0 8px rgba(0, 214, 252, 0.4);
-  cursor: pointer;
-}
-
-.home-btn:hover:before {
-  left: 0; /* Ensure it stays at the left edge */
-  width: 100%; /* Maintain full width */
-}
-
-.home-btn:hover:after {
-  left: 0; /* Ensure it stays at the left edge */
-  width: 100%; /* Maintain full width */
-}
-
-.home-line:before {
-  content: "";
-  position: absolute;
-  bottom: 30%;
-  right: 0;
-  width: 1px;
-  height: 20px;
-  transform: translateX(1px);
-  background: rgba(0, 214, 252, 1);
-  transition: all 0.25s ease;
-}
-
-.home-line:after {
-  content: "";
-  position: absolute;
-  top: 30%;
-  left: 0;
-  width: 1px;
-  height: 20px;
-  transform: translateX(-1px);
-  background: rgba(0, 214, 252, 1);
-  transition: all 0.25s ease;
-}
-
 /* App container */
 .App {
   display: flex; /* Use flexbox to align items */
@@ -166,6 +75,7 @@
 }
 
 /* Styles for the podcast list */
+
 .PodcastListContainer {
   background-color: #121212; /* Dark background */
   color: white;
@@ -173,6 +83,7 @@
   font-family: Arial, sans-serif;
   width: 100%; /* Full width */
   max-width: 1200px; /* Limit maximum width */
+  margin-top: 64px; /* Account for fixed header */
 }
 
 h2 {
@@ -191,19 +102,33 @@ h2 {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.PodcastItem:hover {
+  transform: scale(1.05);
 }
 
 .PodcastItemImage {
   width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: cover;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+}
+
+.PodcastDetails {
+  padding: 10px;
+  text-align: center;
 }
 
 .PodcastItemTitle {
   font-size: 1.1em;
-  padding: 10px 15px;
+  margin: 10px 0;
+}
+
+.PodcastItemSeasons {
+  font-size: 0.9em;
+  color: #b3b3b3; /* Slightly lighter color for the seasons text */
 }
 
 /* Podcast detail container */
@@ -222,6 +147,21 @@ h2 {
 .PodcastDetailDescription {
   margin-bottom: 20px; /* Add bottom margin for spacing */
 }
+
+.SeasonPreviewImages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.SeasonPreviewImage {
+  width: 150px; /* Adjust the width to your desired size */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+
 
 /* Styles for the podcast player */
 .Player {
@@ -285,6 +225,42 @@ h2 {
 .PlayerControls button.active:hover {
   background-color: #1db954; /* Maintain Spotify green on active state */
 }
+
+.SeasonButton {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px; /* Add margin between buttons */
+  margin-bottom: 10px; /* Add margin between rows of buttons */
+  display: inline-flex; /* Display buttons in a flex container */
+  align-items: center; /* Center align items vertically */
+}
+
+.SeasonButton:hover {
+  background-color: #1ed760; /* Lighter green on hover */
+}
+
+.SeasonButton:focus {
+  outline: none;
+}
+
+.SeasonButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.SeasonButton.active {
+  background-color: #1ed760; /* Active state */
+}
+
+.SeasonButton.active:hover {
+  background-color: #1db954; /* Maintain Spotify green on active state */
+}
+
 
 .SeasonsList {
   list-style-type: none;

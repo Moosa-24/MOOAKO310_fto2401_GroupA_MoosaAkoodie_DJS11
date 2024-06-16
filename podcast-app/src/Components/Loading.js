@@ -15,7 +15,7 @@ const Loading = () => {
 
   return (
     <div className="loading-screen">
-      <img src="/images/podcast-logo.png" alt="Logo" className="App-logo" />
+      <img src="/images/podcasts-logo.png" alt="Logo" className="App-logo" />
     </div>
   );
 };

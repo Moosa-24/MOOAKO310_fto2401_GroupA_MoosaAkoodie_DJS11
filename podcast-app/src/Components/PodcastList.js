@@ -5,17 +5,33 @@ import '../App.css';
 
 const PodcastList = ({ setCurrentPodcast }) => {
   const [podcasts, setPodcasts] = useState([]);
-  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPreviews()
-      .then((data) => {
-        setPodcasts(data);
-      })
-      .finally(() => {
-        setLoading(false); // Once data is fetched (success or error), set loading to false
-      });
+    const fetchPodcastDetails = async () => {
+      try {
+        const data = await fetchPreviews();
+        const podcastDetails = await Promise.all(
+          data.map(async (podcast) => {
+            const response = await fetch(`https://podcast-api.netlify.app/id/${podcast.id}`);
+            const podcastData = await response.json();
+            return {
+              ...podcast,
+              seasons: podcastData.seasons.length,
+              genres: podcastData.genres || [], // Ensure genres is defined as an array
+            };
+          })
+        );
+        setPodcasts(podcastDetails);
+      } catch (error) {
+        console.error('Error fetching podcast details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPodcastDetails();
   }, []);
 
   const handlePodcastClick = (podcast) => {
@@ -24,7 +40,7 @@ const PodcastList = ({ setCurrentPodcast }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Display loading state while fetching data
+    return <div>Loading...</div>;
   }
 
   return (
@@ -38,7 +54,12 @@ const PodcastList = ({ setCurrentPodcast }) => {
             onClick={() => handlePodcastClick(podcast)}
           >
             <img src={podcast.image} alt={podcast.title} className="PodcastItemImage" />
-            <h3 className="PodcastItemTitle">{podcast.title}</h3>
+            <div className="PodcastDetails">
+              <h3 className="PodcastItemTitle">{podcast.title}</h3>
+              <p className="PodcastItemSeasons">Seasons: {podcast.seasons}</p>
+              {/* Removed the section displaying last updated date */}
+              <p className="PodcastItemGenres">Genres: {podcast.genres.length > 0 ? podcast.genres.join(', ') : 'N/A'}</p>
+            </div>
           </div>
         ))}
       </div>
