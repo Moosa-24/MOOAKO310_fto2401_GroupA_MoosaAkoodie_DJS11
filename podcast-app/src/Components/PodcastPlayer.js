@@ -75,32 +75,30 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
-  const playPauseEpisode = (episode) => {
-    if (paused) {
-      setCurrentEpisode(episode);
-      setPaused(false);
-    } else {
-      setPaused(true);
+  const playPauseEpisode = () => {
+    const audioElement = document.getElementById('audio-element');
+    if (audioElement) {
+      if (paused) {
+        audioElement.play();
+        setPaused(false);
+      } else {
+        audioElement.pause();
+        setPaused(true);
+      }
     }
   };
 
   const fastForward = () => {
-    if (currentEpisode && episodes.length > 0) {
-      const currentIndex = episodes.findIndex(ep => ep === currentEpisode);
-      if (currentIndex !== -1 && currentIndex < episodes.length - 1) {
-        setCurrentEpisode(episodes[currentIndex + 1]);
-        setPaused(false);
-      }
+    const audioElement = document.getElementById('audio-element');
+    if (audioElement) {
+      audioElement.currentTime += 10; 
     }
   };
 
   const rewind = () => {
-    if (currentEpisode && episodes.length > 0) {
-      const currentIndex = episodes.findIndex(ep => ep === currentEpisode);
-      if (currentIndex !== -1 && currentIndex > 0) {
-        setCurrentEpisode(episodes[currentIndex - 1]);
-        setPaused(false);
-      }
+    const audioElement = document.getElementById('audio-element');
+    if (audioElement) {
+      audioElement.currentTime -= 10; 
     }
   };
 
@@ -120,17 +118,17 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
-  const goToPrevious = () => {
+  const skipToPrevious = () => {
     if (currentSeason && episodes.length > 0 && currentEpisode) {
       const currentIndex = episodes.findIndex(ep => ep === currentEpisode);
-      if (currentIndex !== -1 && currentIndex > 0) {
+      if (currentIndex > 0) {
         setCurrentEpisode(episodes[currentIndex - 1]);
         setPaused(false);
       } else {
-        const prevSeasonIndex = shows.findIndex(show => show.id === currentSeason.showId) - 1;
-        if (prevSeasonIndex >= 0) {
-          const prevSeasonId = shows[prevSeasonIndex].seasons.slice(-1)[0].id;
-          fetchShowDetails(shows[prevSeasonIndex].id, prevSeasonId);
+        const previousSeasonIndex = shows.findIndex(show => show.id === currentSeason.showId) - 1;
+        if (previousSeasonIndex >= 0) {
+          const previousSeasonId = shows[previousSeasonIndex].seasons.slice(-1)[0].id;
+          fetchShowDetails(shows[previousSeasonIndex].id, previousSeasonId);
         }
       }
     }
@@ -150,36 +148,28 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
           <div className="EpisodeTitle">{currentEpisode.title}</div>
           <PlayerProgress currentTime={currentTime} duration={duration} />
           <div className="PlayerControls">
-            <button onClick={goToPrevious}>↩</button>
-            <button onClick={rewind}>↺</button>
-            <button onClick={() => playPauseEpisode(currentEpisode)}>{paused ? '▷' : '||'}</button>
-            <button onClick={fastForward}>↻</button>
-            <button onClick={skipToNext}>↪</button>
+            <button onClick={skipToPrevious}>⟸</button>
+            <button onClick={rewind}>⟲</button>
+            <button onClick={playPauseEpisode}>{paused ? '▷' : '||'}</button>
+            <button onClick={fastForward}>⟳</button>
+            <button onClick={skipToNext}>⟹</button>
           </div>
+          <audio id="audio-element" src={currentEpisode.file} />
         </div>
       ) : (
         <div>
           <div className="EpisodeTitle">PLACEHOLDER AUDIO TRACK</div>
           <PlayerProgress currentTime={currentTime} duration={duration} />
           <div className="PlayerControls">
-            <button onClick={goToPrevious}>↩</button>
-            <button onClick={rewind}>↺</button>
-            <button onClick={() => playPauseEpisode(null)}>▷</button>
-            <button onClick={fastForward}>↻</button>
-            <button onClick={skipToNext}>↪</button>
+          <button onClick={skipToPrevious}>⟸</button>
+            <button onClick={rewind}>⟲</button>
+            <button onClick={playPauseEpisode}>{paused ? '▷' : '||'}</button>
+            <button onClick={fastForward}>⟳</button>
+            <button onClick={skipToNext}>⟹</button>
           </div>
+          <audio id="audio-element" src={"https://podcast-api.netlify.app/placeholder-audio.mp3"} />
         </div>
       )}
-
-      <div className="EpisodeList">
-        {episodes.map((episode) => (
-          <div key={episode.id} className="EpisodeItem">
-            <button onClick={() => playPauseEpisode(episode)}>
-              {episode.title}
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };

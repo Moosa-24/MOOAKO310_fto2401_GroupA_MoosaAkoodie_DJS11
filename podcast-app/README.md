@@ -20,7 +20,7 @@ You may also see any lint errors in the console.
 1 - Initial Setup and Deployment(netlify) - DONE
 2 - Basic Structure and Data Loading - DONE
 3 - Display Shows and Seasons - DONE
-4 - Episode Interaction - DONE (error for 'Each child in a list should have a unique "key" prop not fixed/ignored')
+4 - Episode Interaction - DONE
 5 - Favorites and Filtering
 6 - Sorting and Arrangement
 7 - Advanced Features
