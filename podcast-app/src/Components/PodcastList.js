@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchPreviews } from '../services/Api';
 import '../App.css';
 
-const PodcastList = ({ setCurrentPodcast }) => {
+const PodcastList = () => {
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -35,7 +35,6 @@ const PodcastList = ({ setCurrentPodcast }) => {
   }, []);
 
   const handlePodcastClick = (podcast) => {
-    setCurrentPodcast(podcast);
     navigate(`/podcast/${podcast.id}`);
   };
 
@@ -57,7 +56,6 @@ const PodcastList = ({ setCurrentPodcast }) => {
             <div className="PodcastDetails">
               <h3 className="PodcastItemTitle">{podcast.title}</h3>
               <p className="PodcastItemSeasons">Seasons: {podcast.seasons}</p>
-              {/* Removed the section displaying last updated date */}
               <p className="PodcastItemGenres">Genres: {podcast.genres.length > 0 ? podcast.genres.join(', ') : 'N/A'}</p>
             </div>
           </div>

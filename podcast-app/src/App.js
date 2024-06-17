@@ -8,7 +8,7 @@ import './App.css';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPodcast, setCurrentPodcast] = useState(null);
+  const [currentEpisode, setCurrentEpisode] = useState(null);
 
   useEffect(() => {
     // Simulating some async operation (e.g., fetching data)
@@ -29,12 +29,12 @@ const App = () => {
         </header>
 
         <Routes>
-          <Route path="/" element={<PodcastList setCurrentPodcast={setCurrentPodcast} />} />
-          <Route path="/podcast/:id" element={<PodcastDetail setCurrentPodcast={setCurrentPodcast} />} />
+          <Route path="/" element={<PodcastList setCurrentEpisode={setCurrentEpisode} />} />
+          <Route path="/podcast/:id" element={<PodcastDetail setCurrentEpisode={setCurrentEpisode} />} />
         </Routes>
         
-        {/* Conditionally render PodcastPlayer */}
-        {currentPodcast && <PodcastPlayer podcast={currentPodcast} />}
+        {/* Always render PodcastPlayer */}
+        <PodcastPlayer currentEpisode={currentEpisode} />
       </div>
     </Router>
   );

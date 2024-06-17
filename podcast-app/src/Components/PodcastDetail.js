@@ -1,23 +1,25 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
-import { fetchShow } from '../services/Api';
-import '../App.css';
+import '../App.css'; 
 
-const PodcastDetail = ({ setCurrentPodcast }) => {
+const PodcastDetail = ({ setCurrentPodcast = () => {}, setCurrentEpisode }) => {
   const { id } = useParams();
   const [podcast, setPodcast] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(null); // State for last updated date
-  const [selectedSeason, setSelectedSeason] = useState(0); // State for currently selected season index
-  const [seasonDropdownOpen, setSeasonDropdownOpen] = useState(false); // State for dropdown menu visibility
+  const [lastUpdated, setLastUpdated] = useState(null);
+  const [selectedSeason, setSelectedSeason] = useState(0);
+  const [seasonDropdownOpen, setSeasonDropdownOpen] = useState(false);
+  const [progressBarAnimating, setProgressBarAnimating] = useState(false);
 
   useEffect(() => {
     const fetchPodcastDetails = async () => {
       try {
         const response = await fetch(`https://podcast-api.netlify.app/id/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch podcast details');
+        }
         const data = await response.json();
 
-        // Ensure podcastData.seasons is an array
         const seasons = Array.isArray(data.seasons) ? data.seasons : [];
 
         const podcastDetails = {
@@ -35,7 +37,7 @@ const PodcastDetail = ({ setCurrentPodcast }) => {
 
         setPodcast(podcastDetails);
         setCurrentPodcast(podcastDetails);
-        setLastUpdated(data.updated); // Set lastUpdated from API response
+        setLastUpdated(data.updated);
       } catch (error) {
         console.error('Error fetching podcast details:', error);
       }
@@ -50,7 +52,15 @@ const PodcastDetail = ({ setCurrentPodcast }) => {
 
   const handleSeasonChange = (index) => {
     setSelectedSeason(index);
-    setSeasonDropdownOpen(false); // Close dropdown after selecting a season
+    setSeasonDropdownOpen(false);
+  };
+
+  const handleEpisodeSelect = (episode) => {
+    setProgressBarAnimating(true);
+    setTimeout(() => {
+      setProgressBarAnimating(false);
+      setCurrentEpisode(episode);
+    }, 500); // Assuming 500ms animation duration
   };
 
   if (!podcast) {
@@ -70,17 +80,11 @@ const PodcastDetail = ({ setCurrentPodcast }) => {
         <p>Last Updated: {new Date(lastUpdated).toLocaleDateString()}</p>
       )}
 
-      {/* Season Selector */}
       <div className="SeasonSelector">
-        <button
-          onClick={toggleSeasonDropdown}
-          className="SeasonButton"
-        >
+        <button onClick={toggleSeasonDropdown} className="SeasonButton">
           {podcast.seasons[selectedSeason].title}
           <span className="DropdownArrow">{seasonDropdownOpen ? '▲' : '▼'}</span>
         </button>
-
-        {/* Dropdown menu */}
         {seasonDropdownOpen && (
           <div className="SeasonDropdown">
             {podcast.seasons.map((season, index) => (
@@ -96,7 +100,6 @@ const PodcastDetail = ({ setCurrentPodcast }) => {
         )}
       </div>
 
-      {/* Selected Season Content */}
       <div className="PodcastSeason">
         <h3>{podcast.seasons[selectedSeason].title}</h3>
         {podcast.seasons[selectedSeason].previewImage && (
@@ -108,12 +111,22 @@ const PodcastDetail = ({ setCurrentPodcast }) => {
         )}
         <div className="EpisodeList">
           <div className="EpisodesHeader"><h4>Episodes:</h4></div>
-          {podcast.seasons[selectedSeason].episodes.map((episode, index) => (
-            <div key={episode.id} className="Episode">
-              <span className="EpisodeNumber">{index + 1}.</span>
-              <span className="EpisodeTitle">{episode.title}</span>
+          {podcast.seasons[selectedSeason].episodes.length > 0 ? (
+            podcast.seasons[selectedSeason].episodes.map((episode, index) => (
+              <div
+                key={episode.id}
+                className="Episode"
+                onClick={() => handleEpisodeSelect(episode)}
+              >
+                <span className="EpisodeNumber">{index + 1}.</span>
+                <span className="EpisodeTitle">{episode.title}</span>
+              </div>
+            ))
+          ) : (
+            <div className="Episode">
+              <span className="EpisodeTitle">PLACEHOLDER AUDIO TRACK</span>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>
