@@ -4,7 +4,7 @@ import PodcastList from './Components/PodcastList';
 import PodcastDetail from './Components/PodcastDetail';
 import PodcastPlayer from './Components/PodcastPlayer';
 import Loading from './Components/Loading';
-import FavoritesList from './Components/FavoritesList'; // Import FavoritesList component
+import FavoritesList from './Components/FavoritesList';
 import './App.css';
 
 const App = () => {
@@ -12,10 +12,10 @@ const App = () => {
   const [currentEpisode, setCurrentEpisode] = useState(null);
 
   useEffect(() => {
-    // Simulating some async operation (e.g., fetching data)
+    // Simulating some async operation (e.g. fetching data)
     setTimeout(() => {
       setIsLoading(false); // Set loading to false after delay
-    }, 5000); // Simulate 5 seconds delay for demonstration purposes
+    }, 5000); 
   }, []);
 
   const toggleFavorite = ({ podcastId, seasonId, episode }) => {
