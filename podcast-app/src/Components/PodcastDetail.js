@@ -1,15 +1,14 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import '../App.css';
 
-const PodcastDetail = ({ setCurrentPodcast = () => {}, setCurrentEpisode }) => {
+const PodcastDetail = ({ setCurrentEpisode }) => {
   const { id } = useParams();
   const [podcast, setPodcast] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(null);
+  const [favorites, setFavorites] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(0);
   const [seasonDropdownOpen, setSeasonDropdownOpen] = useState(false);
-  const [progressBarAnimating, setProgressBarAnimating] = useState(false);
 
   useEffect(() => {
     const fetchPodcastDetails = async () => {
@@ -36,15 +35,57 @@ const PodcastDetail = ({ setCurrentPodcast = () => {}, setCurrentEpisode }) => {
         };
 
         setPodcast(podcastDetails);
-        setCurrentPodcast(podcastDetails);
-        setLastUpdated(data.updated);
       } catch (error) {
         console.error('Error fetching podcast details:', error);
       }
     };
 
     fetchPodcastDetails();
-  }, [id, setCurrentPodcast]);
+  }, [id]);
+
+  useEffect(() => {
+    // Load favorites from localStorage on component mount
+    const storedFavorites = localStorage.getItem('favorites');
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
+  }, []);
+
+  const toggleFavorite = (episode) => {
+    if (!podcast) return; // Ensure podcast details are loaded
+
+    const { id: podcastId, seasons } = podcast;
+    const { id: episodeId } = episode;
+    const seasonId = seasons[selectedSeason].id;
+
+    const isFavorited = favorites.some(fav =>
+      fav.podcastId === podcastId &&
+      fav.seasonId === seasonId &&
+      fav.episodeId === episodeId
+    );
+
+    if (isFavorited) {
+      const updatedFavorites = favorites.filter(fav =>
+        !(fav.podcastId === podcastId &&
+          fav.seasonId === seasonId &&
+          fav.episodeId === episodeId)
+      );
+      setFavorites(updatedFavorites);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    } else {
+      const newFavorite = {
+        podcastId,
+        seasonId,
+        episodeId,
+        title: episode.title,
+        timestamp: new Date().toISOString(), // Add timestamp when favorited
+        // other necessary details
+      };
+      const updatedFavorites = [...favorites, newFavorite];
+      setFavorites(updatedFavorites);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    }
+  };
 
   const toggleSeasonDropdown = () => {
     setSeasonDropdownOpen(!seasonDropdownOpen);
@@ -56,11 +97,13 @@ const PodcastDetail = ({ setCurrentPodcast = () => {}, setCurrentEpisode }) => {
   };
 
   const handleEpisodeSelect = (episode) => {
-    setProgressBarAnimating(true);
-    setTimeout(() => {
-      setProgressBarAnimating(false);
-      setCurrentEpisode(episode);
-    }, 500); // Assuming 500ms animation duration
+    setCurrentEpisode(episode);
+  };
+
+  const isFavorite = (episodeId) => {
+    return favorites.some(fav =>
+      fav.episodeId === episodeId
+    );
   };
 
   if (!podcast) {
@@ -76,9 +119,6 @@ const PodcastDetail = ({ setCurrentPodcast = () => {}, setCurrentEpisode }) => {
       <h2>{podcast.title}</h2>
       <img src={podcast.image} alt={podcast.title} className="PodcastDetailImage" />
       <div className="PodcastDetailDescription">{podcast.description}</div>
-      {lastUpdated && (
-        <p>Last Updated: {new Date(lastUpdated).toLocaleDateString()}</p>
-      )}
 
       <div className="SeasonSelector">
         <button onClick={toggleSeasonDropdown} className="SeasonButton">
@@ -120,6 +160,15 @@ const PodcastDetail = ({ setCurrentPodcast = () => {}, setCurrentEpisode }) => {
               >
                 <span className="EpisodeNumber">{index + 1}.</span>
                 <span className="EpisodeTitle">{episode.title}</span>
+                <button
+                  className="FavoriteButton"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(episode);
+                  }}
+                >
+                  {isFavorite(episode.id) ? 'Favorited' : 'Add to Favorites'}
+                </button>
               </div>
             ))
           ) : (
@@ -131,6 +180,10 @@ const PodcastDetail = ({ setCurrentPodcast = () => {}, setCurrentEpisode }) => {
       </div>
     </div>
   );
+};
+
+PodcastDetail.propTypes = {
+  setCurrentEpisode: PropTypes.func.isRequired,
 };
 
 export default PodcastDetail;
