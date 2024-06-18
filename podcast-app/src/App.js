@@ -19,7 +19,7 @@ const App = () => {
   }, []);
 
   const toggleFavorite = ({ podcastId, seasonId, episode }) => {
-    // Implement logic to handle favorites, possibly using localStorage or API
+    // Implement logic to handle favorites
     console.log(`Toggle favorite: ${episode.title}`);
   };
 

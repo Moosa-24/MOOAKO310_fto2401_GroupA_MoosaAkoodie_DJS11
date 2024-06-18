@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 
-// PodcastPlayer component is responsible for rendering and managing the podcast player
 const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
-  const [shows, setShows] = useState([]); // State to store all podcast shows
-  const [currentSeason, setCurrentSeason] = useState(null); // State to store the current season
-  const [episodes, setEpisodes] = useState([]); // State to store episodes of the current season
-  const [currentEpisode, setCurrentEpisode] = useState(propCurrentEpisode || null); // State to store the current episode
-  const [paused, setPaused] = useState(true); // State to manage play/pause status
-  const [currentTime, setCurrentTime] = useState(0); // State to store the current time of the audio
-  const [duration, setDuration] = useState(0); // State to store the duration of the audio
+  const [shows, setShows] = useState([]);
+  const [currentSeason, setCurrentSeason] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
+  const [currentEpisode, setCurrentEpisode] = useState(propCurrentEpisode || null);
+  const [paused, setPaused] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [audioPlaying, setAudioPlaying] = useState(false); // State to track if audio is playing
 
-  // useEffect hook to fetch podcast shows when the component mounts
   useEffect(() => {
     const fetchShows = async () => {
       try {
@@ -35,7 +34,6 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     fetchShows();
   }, []);
 
-  // useEffect hook to set up event listeners for the audio element when the current episode changes
   useEffect(() => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
@@ -43,14 +41,27 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
       audioElement.addEventListener('loadedmetadata', () => {
         setDuration(audioElement.duration);
       });
+
+      // Set state for audio playing or paused
+      audioElement.addEventListener('play', () => setAudioPlaying(true));
+      audioElement.addEventListener('pause', () => setAudioPlaying(false));
     }
 
     return () => {
       if (audioElement) {
         audioElement.removeEventListener('timeupdate', updateTime);
+        audioElement.removeEventListener('play', () => setAudioPlaying(true));
+        audioElement.removeEventListener('pause', () => setAudioPlaying(false));
       }
     };
   }, [currentEpisode]);
+
+  useEffect(() => {
+    if (propCurrentEpisode) {
+      setCurrentEpisode(propCurrentEpisode);
+      setPaused(false);
+    }
+  }, [propCurrentEpisode]);
 
   // Function to update the current time of the audio
   const updateTime = () => {
@@ -60,7 +71,6 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
-  // Function to fetch details of a specific show and season
   const fetchShowDetails = async (showId, seasonId) => {
     try {
       const response = await fetch(`https://podcast-api.netlify.app/id/${showId}`);
@@ -74,13 +84,12 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
       }
       setCurrentSeason(season);
       setEpisodes(season.episodes);
-      setCurrentEpisode(season.episodes[0] || null); // Ensure currentEpisode is null if no episodes
+      setCurrentEpisode(season.episodes[0] || null);
     } catch (error) {
       console.error('Error fetching show details:', error);
     }
   };
 
-  // Function to play or pause the current episode
   const playPauseEpisode = () => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
@@ -94,23 +103,20 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
-  // Function to fast forward the current episode by 10 seconds
   const fastForward = () => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
-      audioElement.currentTime += 10; 
+      audioElement.currentTime += 10;
     }
   };
 
-  // Function to rewind the current episode by 10 seconds
   const rewind = () => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
-      audioElement.currentTime -= 10; 
+      audioElement.currentTime -= 10;
     }
   };
 
-  // Function to skip to the next episode or season
   const skipToNext = () => {
     if (currentSeason && episodes.length > 0 && currentEpisode) {
       const currentIndex = episodes.findIndex(ep => ep === currentEpisode);
@@ -127,7 +133,6 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
-  // Function to skip to the previous episode or season
   const skipToPrevious = () => {
     if (currentSeason && episodes.length > 0 && currentEpisode) {
       const currentIndex = episodes.findIndex(ep => ep === currentEpisode);
@@ -144,13 +149,22 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
-  // useEffect hook to update the current episode when the prop changes
+  // Prompt user before leaving the page if audio is playing
   useEffect(() => {
-    if (propCurrentEpisode) {
-      setCurrentEpisode(propCurrentEpisode);
-      setPaused(false);
-    }
-  }, [propCurrentEpisode]);
+    const handleBeforeUnload = (event) => {
+      if (audioPlaying) {
+        const confirmationMessage = 'Are you sure you want to leave? Your audio is still playing.';
+        event.returnValue = confirmationMessage; // Standard way of setting confirmation message in most browsers
+        return confirmationMessage; // Required for some browsers
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [audioPlaying]);
 
   return (
     <div className="Player">
@@ -185,7 +199,6 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
   );
 };
 
-// PlayerProgress component to display the progress of the audio
 const PlayerProgress = ({ currentTime, duration }) => {
   const progressPercentage = (currentTime / duration) * 100 || 0;
 

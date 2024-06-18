@@ -65,7 +65,7 @@ For questions or feedback regarding the React Podcast App, feel free to reach ou
    21. Audio player must show listening progress - done
 
 ### Favorites and Filtering
-   22. ### User is able to mark specific episodes as favourites so that they can find them again (Note the requirement is that a specific episode of a specific season of a specific show is to be favourited) - HALF done(i cant choose multiple but i can choose a specific one that i want)
+   22. ### User is able to mark specific episodes as favourites so that they can find them again (Note the requirement is that a specific episode of a specific season of a specific show is to be favourited) - NOT DONE(i cant choose multiple but i can choose a specific one that i want)
    23. User can visit a view where they see all their favourite episodes - done
    24. ### User is able to see the associated show and season when an episode is in favourites - NOT DONE
    25. ### Related by season/show episodes are grouped together in favourites - NOT DONE
@@ -88,7 +88,7 @@ For questions or feedback regarding the React Podcast App, feel free to reach ou
    38. ### User is able to arrange list of shows from least recently updated (Oldest updated Shows) - done(i think)
 
 ### Advanced Features
-   39. ### User receives a notification that confirms they want to close the page when audio is playing - NOT DONE
+   39. User receives a notification that confirms they want to close the page when audio is playing - done
    40. ### App remembers and shows what episodes user listened to all the way through - NOT DONE
    41. ### User has the option to "reset" all their progress, effectively removing their entire listening history. (Note marks are awarded only for "resetting" entire listening history) - NOT DONE
    42. ### App displays the exact timestamp location of where they left off any episode - NOT DONE
@@ -105,4 +105,4 @@ For questions or feedback regarding the React Podcast App, feel free to reach ou
    49. The project's commit history shows short and clear commit messages - done
    50. ### The project loads and functions without ANY bugs (Completed user stories possess no bugs whatsoever) - NOT DONE
    51. Well organized project structure & clean readable code - done
-   52. ### User is able to find shows based on fuzzy matching of concepts
+   52. ### User is able to find shows based on fuzzy matching of concepts - NOT DONE
