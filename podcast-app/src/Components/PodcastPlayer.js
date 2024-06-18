@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 
+// PodcastPlayer component is responsible for rendering and managing the podcast player
 const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
-  const [shows, setShows] = useState([]);
-  const [currentSeason, setCurrentSeason] = useState(null);
-  const [episodes, setEpisodes] = useState([]);
-  const [currentEpisode, setCurrentEpisode] = useState(propCurrentEpisode || null);
-  const [paused, setPaused] = useState(true);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [shows, setShows] = useState([]); // State to store all podcast shows
+  const [currentSeason, setCurrentSeason] = useState(null); // State to store the current season
+  const [episodes, setEpisodes] = useState([]); // State to store episodes of the current season
+  const [currentEpisode, setCurrentEpisode] = useState(propCurrentEpisode || null); // State to store the current episode
+  const [paused, setPaused] = useState(true); // State to manage play/pause status
+  const [currentTime, setCurrentTime] = useState(0); // State to store the current time of the audio
+  const [duration, setDuration] = useState(0); // State to store the duration of the audio
 
+  // useEffect hook to fetch podcast shows when the component mounts
   useEffect(() => {
     const fetchShows = async () => {
       try {
@@ -33,6 +35,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     fetchShows();
   }, []);
 
+  // useEffect hook to set up event listeners for the audio element when the current episode changes
   useEffect(() => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
@@ -49,6 +52,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     };
   }, [currentEpisode]);
 
+  // Function to update the current time of the audio
   const updateTime = () => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
@@ -56,6 +60,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
+  // Function to fetch details of a specific show and season
   const fetchShowDetails = async (showId, seasonId) => {
     try {
       const response = await fetch(`https://podcast-api.netlify.app/id/${showId}`);
@@ -75,6 +80,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
+  // Function to play or pause the current episode
   const playPauseEpisode = () => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
@@ -88,6 +94,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
+  // Function to fast forward the current episode by 10 seconds
   const fastForward = () => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
@@ -95,6 +102,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
+  // Function to rewind the current episode by 10 seconds
   const rewind = () => {
     const audioElement = document.getElementById('audio-element');
     if (audioElement) {
@@ -102,6 +110,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
+  // Function to skip to the next episode or season
   const skipToNext = () => {
     if (currentSeason && episodes.length > 0 && currentEpisode) {
       const currentIndex = episodes.findIndex(ep => ep === currentEpisode);
@@ -118,6 +127,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
+  // Function to skip to the previous episode or season
   const skipToPrevious = () => {
     if (currentSeason && episodes.length > 0 && currentEpisode) {
       const currentIndex = episodes.findIndex(ep => ep === currentEpisode);
@@ -134,6 +144,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
     }
   };
 
+  // useEffect hook to update the current episode when the prop changes
   useEffect(() => {
     if (propCurrentEpisode) {
       setCurrentEpisode(propCurrentEpisode);
@@ -161,7 +172,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
           <div className="EpisodeTitle">PLACEHOLDER AUDIO TRACK</div>
           <PlayerProgress currentTime={currentTime} duration={duration} />
           <div className="PlayerControls">
-          <button onClick={skipToPrevious}>⟸</button>
+            <button onClick={skipToPrevious}>⟸</button>
             <button onClick={rewind}>⟲</button>
             <button onClick={playPauseEpisode}>{paused ? '▷' : '||'}</button>
             <button onClick={fastForward}>⟳</button>
@@ -174,6 +185,7 @@ const PodcastPlayer = ({ currentEpisode: propCurrentEpisode }) => {
   );
 };
 
+// PlayerProgress component to display the progress of the audio
 const PlayerProgress = ({ currentTime, duration }) => {
   const progressPercentage = (currentTime / duration) * 100 || 0;
 

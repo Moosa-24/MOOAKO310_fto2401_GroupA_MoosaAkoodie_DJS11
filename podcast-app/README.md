@@ -88,10 +88,10 @@ For questions or feedback regarding the React Podcast App, feel free to reach ou
    38. ### User is able to arrange list of shows from least recently updated (Oldest updated Shows) - done(i think)
 
 ### Advanced Features
-   39. User receives a notification that confirms they want to close the page when audio is playing
-   40. App remembers and shows what episodes user listened to all the way through
-   41. User has the option to "reset" all their progress, effectively removing their entire listening history. (Note marks are awarded only for "resetting" entire listening history)
-   42. App displays the exact timestamp location of where they left off any episode
+   39. ### User receives a notification that confirms they want to close the page when audio is playing - NOT DONE
+   40. ### App remembers and shows what episodes user listened to all the way through - NOT DONE
+   41. ### User has the option to "reset" all their progress, effectively removing their entire listening history. (Note marks are awarded only for "resetting" entire listening history) - NOT DONE
+   42. ### App displays the exact timestamp location of where they left off any episode - NOT DONE
 
 ### UI/UX Enhancements
    43. The project has a good appearance and Desktop layout when opened in a web browser - done

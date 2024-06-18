@@ -1,3 +1,5 @@
+/* LOADING SCREEN / LOGO */
+
 .loading-screen {
   display: flex;
   flex-direction: column;
@@ -33,7 +35,7 @@
   }
 }
 
-/* App container */
+/* APP CONTAINER */
 .App {
   display: flex; /* Use flexbox to align items */
   flex-direction: column; /* Column layout */
@@ -44,7 +46,7 @@
   padding-bottom: 60px; /* Ensure space for fixed player */
 }
 
-/* Header styles */
+/* HEADER STYLES */
 .App-header {
   background-color: #1db954; /* Spotify green */
   height: 64px; /* Fixed height for header */
@@ -64,35 +66,7 @@
   line-height: 48px; /* Vertically center text */
 }
 
-.SortOptions {
-  display: flex;
-  justify-content: flex-end; /* Align items to the right */
-  gap: 10px; /* Space between elements */
-  margin-bottom: 10px; /* Top margin */
-}
-
-.SortOptions label {
-  line-height: 28px; /* Vertically center label text */
-  margin-right: 10px; /* Right margin for spacing */
-}
-
-.SortOptions select {
-  padding: 8px 12px; /* Padding for select box */
-  border-radius: 4px; /* Rounded corners */
-  border: 1px solid #ccc; /* Border */
-  background-color: white; /* Background color */
-  color: #333; /* Text color */
-  font-size: 14px; /* Font size */
-  cursor: pointer; /* Pointer cursor */
-  transition: border-color 0.3s ease; /* Smooth transition for border color */
-}
-
-.SortOptions select:hover,
-.SortOptions select:focus {
-  border-color: #1db954; /* Highlight border on hover/focus */
-}
-
-/* Main content container */
+/* MAIN CONTENT CONTAINER */
 .MainContent {
   width: 100%; /* Full width */
   max-width: 1200px; /* Limit maximum width */
@@ -102,7 +76,7 @@
   justify-content: center;
 }
 
-/* Styles for the podcast list */
+/* STYLES FOR THE PODCAST LIST */
 
 .PodcastListContainer {
   background-color: #121212; /* Dark background */
@@ -159,23 +133,6 @@ h2 {
   color: #b3b3b3; /* Slightly lighter color for the seasons text */
 }
 
-/* Podcast detail container */
-.PodcastDetailContainer {
-  max-width: 800px; /* Adjust the maximum width based on your design */
-  margin: 20px 0; /* Center align the container */
-  padding: 20px; /* Add padding for spacing */
-}
-
-.PodcastDetailImage {
-  max-width: 100%; /* Ensure the image scales properly */
-  height: auto; /* Maintain aspect ratio */
-  margin-bottom: 20px; /* Add bottom margin for spacing */
-}
-
-.PodcastDetailDescription {
-  margin-bottom: 20px; /* Add bottom margin for spacing */
-}
-
 .SeasonPreviewImages {
   display: flex;
   flex-wrap: wrap;
@@ -183,15 +140,14 @@ h2 {
 }
 
 .SeasonPreviewImage {
-  width: 150px; /* Adjust the width to your desired size */
+  width: 150px;
   height: auto; /* Maintain aspect ratio */
   border-radius: 5px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
+/* STYLES FOR PODCAST PLAYER */
 
-
-/* Styles for the podcast player */
 .Player {
   background-color: #1e1e1e; /* Dark background */
   color: white;
@@ -284,6 +240,7 @@ h2 {
   }
 }
 
+/* S-BUTTON */
 
 .SeasonButton {
   background-color: #1db954;
@@ -320,41 +277,6 @@ h2 {
   background-color: #1db954; /* Maintain Spotify green on active state */
 }
 
-
-.SeasonsList {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 10px;
-}
-
-.SeasonsList button {
-  background-color: #1db954;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.SeasonsList button:hover {
-  background-color: #1ed760; /* Lighter green on hover */
-}
-
-.SeasonsList button:focus {
-  outline: none;
-}
-
-.SeasonsList button.active {
-  background-color: #1ed760; /* Active state */
-}
-
-.SeasonsList button.active:hover {
-  background-color: #1db954; /* Maintain Spotify green on active state */
-}
-
 .ToggleSeasonsButton,
 .CloseSeasonsButton {
   background-color: #1db954;
@@ -381,7 +303,7 @@ h2 {
   cursor: pointer;
 }
 
-
+/* PODCAST DETAIL / SEASON */
 .PodcastDetailContainer {
   max-width: 800px; /* Adjust the maximum width based on your design */
   margin: 0 auto; /* Center align the container */
@@ -398,14 +320,6 @@ h2 {
   margin-bottom: 20px; /* Add bottom margin for spacing */
 }
 
-.PodcastSeasons {
-  /* Add styles for seasons if necessary */
-}
-
-.PodcastSeason {
-  /* Add styles for each season if necessary */
-}
-
 .PodcastSeason ul {
   list-style-type: none; /* Remove default list styling */
   padding: 0; /* Remove default padding */
@@ -413,4 +327,33 @@ h2 {
 
 .PodcastSeason li {
   margin-bottom: 10px; /* Add bottom margin for spacing between episodes */
+}
+
+.SortOptions {
+  display: flex;
+  justify-content: flex-end; /* Align items to the right */
+  gap: 10px; /* Space between elements */
+  margin-bottom: 10px; /* Top margin */
+}
+
+/* SORT OPTIONS FAVORITES / PODCAST LIST */
+.SortOptions label {
+  line-height: 28px; /* Vertically center label text */
+  margin-right: 10px; /* Right margin for spacing */
+}
+
+.SortOptions select {
+  padding: 8px 12px; /* Padding for select box */
+  border-radius: 4px; /* Rounded corners */
+  border: 1px solid #ccc; /* Border */
+  background-color: white; /* Background color */
+  color: #333; /* Text color */
+  font-size: 14px; /* Font size */
+  cursor: pointer; /* Pointer cursor */
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.SortOptions select:hover,
+.SortOptions select:focus {
+  border-color: #1db954; /* Highlight border on hover/focus */
 }

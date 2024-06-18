@@ -4,15 +4,19 @@ import { fetchPreviews } from '../services/Api';
 import '../App.css';
 
 const PodcastList = () => {
+  // useState is used to manage state variables for the component
   const [podcasts, setPodcasts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState('AZ'); // Default sort by A-Z
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // Tracks if the data is still loading
+  const [sortBy, setSortBy] = useState('AZ'); // Default sorting order is A-Z
+  const navigate = useNavigate(); // Hook for navigation
 
+  // useEffect runs side-effects (like data fetching) after the component renders
   useEffect(() => {
     const fetchPodcastDetails = async () => {
       try {
+        // Fetching preview data
         const data = await fetchPreviews();
+        // Fetching detailed data for each podcast
         const podcastDetails = await Promise.all(
           data.map(async (podcast) => {
             const response = await fetch(`https://podcast-api.netlify.app/id/${podcast.id}`);
@@ -25,19 +29,20 @@ const PodcastList = () => {
           })
         );
 
-        // Apply sorting based on current sortBy state
+        // Sort podcasts based on the selected sorting option
         const sortedPodcasts = sortPodcasts(podcastDetails, sortBy);
         setPodcasts(sortedPodcasts);
       } catch (error) {
-        console.error('Error fetching podcast details:', error);
+        console.error('Error fetching podcast details:', error); // Log errors to the console
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false once data fetching is done
       }
     };
 
     fetchPodcastDetails();
-  }, [sortBy]); // Fetch podcasts whenever sortBy changes
+  }, [sortBy]); // Dependency array to re-run effect when sortBy changes
 
+  // Function to sort podcasts based on different criteria
   const sortPodcasts = (podcasts, sortBy) => {
     switch (sortBy) {
       case 'AZ':
@@ -53,18 +58,22 @@ const PodcastList = () => {
     }
   };
 
+  // Navigate to podcast details page when a podcast is clicked
   const handlePodcastClick = (podcast) => {
     navigate(`/podcast/${podcast.id}`);
   };
 
+  // Handle change in sort option
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
 
+  // Display loading message if data is still being fetched
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  // Render the list of podcasts
   return (
     <div className="PodcastListContainer">
       <h2>Podcast List</h2>
