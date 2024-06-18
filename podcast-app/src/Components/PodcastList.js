@@ -4,19 +4,16 @@ import { fetchPreviews } from '../services/Api';
 import '../App.css';
 
 const PodcastList = () => {
-  // useState is used to manage state variables for the component
   const [podcasts, setPodcasts] = useState([]);
-  const [loading, setLoading] = useState(true); // Tracks if the data is still loading
-  const [sortBy, setSortBy] = useState('AZ'); // Default sorting order is A-Z
-  const navigate = useNavigate(); // Hook for navigation
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState('AZ');
+  const [titleFilter, setTitleFilter] = useState(''); // State for title filter
+  const navigate = useNavigate();
 
-  // useEffect runs side-effects (like data fetching) after the component renders
   useEffect(() => {
     const fetchPodcastDetails = async () => {
       try {
-        // Fetching preview data
         const data = await fetchPreviews();
-        // Fetching detailed data for each podcast
         const podcastDetails = await Promise.all(
           data.map(async (podcast) => {
             const response = await fetch(`https://podcast-api.netlify.app/id/${podcast.id}`);
@@ -29,20 +26,18 @@ const PodcastList = () => {
           })
         );
 
-        // Sort podcasts based on the selected sorting option
         const sortedPodcasts = sortPodcasts(podcastDetails, sortBy);
         setPodcasts(sortedPodcasts);
       } catch (error) {
-        console.error('Error fetching podcast details:', error); // Log errors to the console
+        console.error('Error fetching podcast details:', error);
       } finally {
-        setLoading(false); // Set loading to false once data fetching is done
+        setLoading(false);
       }
     };
 
     fetchPodcastDetails();
-  }, [sortBy]); // Dependency array to re-run effect when sortBy changes
+  }, [sortBy]);
 
-  // Function to sort podcasts based on different criteria
   const sortPodcasts = (podcasts, sortBy) => {
     switch (sortBy) {
       case 'AZ':
@@ -58,22 +53,27 @@ const PodcastList = () => {
     }
   };
 
-  // Navigate to podcast details page when a podcast is clicked
   const handlePodcastClick = (podcast) => {
     navigate(`/podcast/${podcast.id}`);
   };
 
-  // Handle change in sort option
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
 
-  // Display loading message if data is still being fetched
+  const handleTitleFilterChange = (event) => {
+    setTitleFilter(event.target.value);
+  };
+
+  // Filter podcasts based on title
+  const filteredPodcasts = podcasts.filter((podcast) =>
+    podcast.title.toLowerCase().includes(titleFilter.toLowerCase())
+  );
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Render the list of podcasts
   return (
     <div className="PodcastListContainer">
       <h2>Podcast List</h2>
@@ -85,9 +85,16 @@ const PodcastList = () => {
           <option value="NEW">Newly Updated Shows</option>
           <option value="OLD">Oldest Updated Shows</option>
         </select>
+        
+        <label>Title Filter:</label>
+        <input
+          type="text"
+          value={titleFilter}
+          onChange={handleTitleFilterChange}
+        />
       </div>
       <div className="PodcastList">
-        {podcasts.map((podcast) => (
+        {filteredPodcasts.map((podcast) => (
           <div
             key={podcast.id}
             className="PodcastItem"
@@ -97,7 +104,9 @@ const PodcastList = () => {
             <div className="PodcastDetails">
               <h3 className="PodcastItemTitle">{podcast.title}</h3>
               <p className="PodcastItemSeasons">Seasons: {podcast.seasons}</p>
-              <p className="PodcastItemGenres">Genres: {podcast.genres.length > 0 ? podcast.genres.join(', ') : 'N/A'}</p>
+              <p className="PodcastItemGenres">
+                Genres: {podcast.genres.length > 0 ? podcast.genres.join(', ') : 'N/A'}
+              </p>
             </div>
           </div>
         ))}

@@ -41,7 +41,7 @@ For questions or feedback regarding the React Podcast App, feel free to reach ou
    3. Metatag information has been created and added via metatags.io. Be mindful to manually replace all URL values (especially image URL) to absolute Netlify URL values (you will need to deploy to Netlify first) - done
 
 ### Basic Structure and Data Loading
-   4. All show data loaded via a fetch call from the API (Note no podcast data should be hardcoded in the application) - done
+   4. ### All show data loaded via a fetch call from the API (Note no podcast data should be hardcoded in the application) - NOT DONE
    5. When viewing a specific show, data is loaded via fetch from individual show endpoint - done
    6. There is a loading state while initial data is being loaded - done
    7. There is a loading state while new data is being loaded - done
