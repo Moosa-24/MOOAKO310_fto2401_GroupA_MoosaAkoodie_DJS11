@@ -31,13 +31,13 @@ const App = () => {
     <Router>
       <div className="App">
         <header className="App-header">
-          <h1 className='header-text'>Podcast App</h1>
-          <nav className="App-nav">
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/favorites">Favorites</Link></li>
-            </ul>
-          </nav>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h1>Podcast App</h1>
+          </Link>
+
+          <Link to="/favorites" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h1>Favorites</h1>
+          </Link>
         </header>
 
         <Routes>

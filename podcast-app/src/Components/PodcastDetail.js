@@ -10,7 +10,6 @@ const PodcastDetail = ({ setCurrentEpisode }) => {
   const [selectedSeason, setSelectedSeason] = useState(0);
   const [seasonDropdownOpen, setSeasonDropdownOpen] = useState(false);
 
-  // This useEffect hook fetches podcast details from the API when the component mounts or the ID changes
   useEffect(() => {
     const fetchPodcastDetails = async () => {
       try {
@@ -44,7 +43,6 @@ const PodcastDetail = ({ setCurrentEpisode }) => {
     fetchPodcastDetails();
   }, [id]);
 
-  // This useEffect hook loads the list of favorite episodes from localStorage when the component mounts
   useEffect(() => {
     const storedFavorites = localStorage.getItem('favorites');
     if (storedFavorites) {
@@ -52,9 +50,8 @@ const PodcastDetail = ({ setCurrentEpisode }) => {
     }
   }, []);
 
-  // This function adds or removes an episode from the favorites list
   const toggleFavorite = (episode) => {
-    if (!podcast) return; // Ensure podcast details are loaded
+    if (!podcast) return;
 
     const { id: podcastId, seasons } = podcast;
     const { id: episodeId } = episode;
@@ -66,52 +63,47 @@ const PodcastDetail = ({ setCurrentEpisode }) => {
       fav.episodeId === episodeId
     );
 
+    let updatedFavorites;
     if (isFavorited) {
-      const updatedFavorites = favorites.filter(fav =>
+      updatedFavorites = favorites.filter(fav =>
         !(fav.podcastId === podcastId &&
           fav.seasonId === seasonId &&
           fav.episodeId === episodeId)
       );
-      setFavorites(updatedFavorites);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     } else {
       const newFavorite = {
         podcastId,
         seasonId,
         episodeId,
         title: episode.title,
-        timestamp: new Date().toISOString(), // Add timestamp when favorited
+        showTitle: podcast.title, // Add show title
+        seasonTitle: seasons[selectedSeason].title, // Add season title
+        timestamp: new Date().toISOString(),
       };
-      const updatedFavorites = [...favorites, newFavorite];
-      setFavorites(updatedFavorites);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      updatedFavorites = [...favorites, newFavorite];
     }
+
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
-  // This function toggles the visibility of the season dropdown menu
   const toggleSeasonDropdown = () => {
     setSeasonDropdownOpen(!seasonDropdownOpen);
   };
 
-  // This function changes the selected season when a new season is selected from the dropdown
   const handleSeasonChange = (index) => {
     setSelectedSeason(index);
     setSeasonDropdownOpen(false);
   };
 
-  // This function sets the current episode in the parent component when an episode is selected
   const handleEpisodeSelect = (episode) => {
     setCurrentEpisode(episode);
   };
 
-  // This function checks if an episode is in the favorites list
   const isFavorite = (episodeId) => {
-    return favorites.some(fav =>
-      fav.episodeId === episodeId
-    );
+    return favorites.some(fav => fav.episodeId === episodeId);
   };
 
-  // If the podcast details are not yet loaded, show a loading screen
   if (!podcast) {
     return (
       <div className="loading-screen">
@@ -173,7 +165,7 @@ const PodcastDetail = ({ setCurrentEpisode }) => {
                     toggleFavorite(episode);
                   }}
                 >
-                  {isFavorite(episode.id) ? '❤️' : '🤍'}
+                  {isFavorite(episode.id) ? '💚' : '🤍'}
                 </button>
               </div>
             ))
@@ -188,9 +180,7 @@ const PodcastDetail = ({ setCurrentEpisode }) => {
   );
 };
 
-// Define the expected prop types for this component
 PodcastDetail.propTypes = {
-  // setCurrentEpisode is a function that is required to be passed to this component
   setCurrentEpisode: PropTypes.func.isRequired,
 };
 

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
 
-const FavoritesList = ({ favorites }) => {
+const FavoritesList = () => {
   const [storedFavorites, setStoredFavorites] = useState([]);
   const [titleFilter, setTitleFilter] = useState('');
   const [sortCriteria, setSortCriteria] = useState('recent');
@@ -11,7 +12,6 @@ const FavoritesList = ({ favorites }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        // Load favorites from localStorage
         const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setStoredFavorites(storedFavorites);
       } catch (error) {
@@ -42,45 +42,44 @@ const FavoritesList = ({ favorites }) => {
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
-  const filteredFavorites = storedFavorites.filter((fav) => {
-    const matchesTitle =
-      titleFilter === '' ||
-      (fav.title && fav.title.toLowerCase().includes(titleFilter.toLowerCase()));
+  const filteredFavorites = useMemo(() => {
+    return storedFavorites.filter((fav) => {
+      const matchesTitle =
+        titleFilter === '' ||
+        (fav.title && fav.title.toLowerCase().includes(titleFilter.toLowerCase()));
+      return matchesTitle;
+    });
+  }, [storedFavorites, titleFilter]);
 
-    return matchesTitle;
-  });
-
-  const sortByTitleAZ = () => {
-    const sortedFavorites = [...filteredFavorites].sort((a, b) =>
-      a.title.localeCompare(b.title)
-    );
-    setStoredFavorites(sortedFavorites);
-    setSortCriteria('titleAZ');
-  };
-
-  const sortByTitleZA = () => {
-    const sortedFavorites = [...filteredFavorites].sort((a, b) =>
-      b.title.localeCompare(a.title)
-    );
-    setStoredFavorites(sortedFavorites);
-    setSortCriteria('titleZA');
-  };
-
-  const sortByRecent = () => {
-    const sortedFavorites = [...filteredFavorites].sort((a, b) =>
-      b.timestamp - a.timestamp
-    );
-    setStoredFavorites(sortedFavorites);
-    setSortCriteria('recent');
-  };
-
-  const sortByOldest = () => {
-    const sortedFavorites = [...filteredFavorites].sort((a, b) =>
-      a.timestamp - b.timestamp
-    );
-    setStoredFavorites(sortedFavorites);
-    setSortCriteria('oldest');
-  };
+  const sortedFavorites = useMemo(() => {
+    let sortedFavorites;
+    switch (sortCriteria) {
+      case 'titleAZ':
+        sortedFavorites = [...filteredFavorites].sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
+        break;
+      case 'titleZA':
+        sortedFavorites = [...filteredFavorites].sort((a, b) =>
+          b.title.localeCompare(a.title)
+        );
+        break;
+      case 'recent':
+        sortedFavorites = [...filteredFavorites].sort((a, b) =>
+          new Date(b.timestamp) - new Date(a.timestamp)
+        );
+        break;
+      case 'oldest':
+        sortedFavorites = [...filteredFavorites].sort((a, b) =>
+          new Date(a.timestamp) - new Date(b.timestamp)
+        );
+        break;
+      default:
+        sortedFavorites = filteredFavorites;
+        break;
+    }
+    return sortedFavorites;
+  }, [filteredFavorites, sortCriteria]);
 
   if (loading) {
     return (
@@ -98,25 +97,7 @@ const FavoritesList = ({ favorites }) => {
         <label>Sort By:</label>
         <select
           value={sortCriteria}
-          onChange={(e) => {
-            setSortCriteria(e.target.value);
-            switch (e.target.value) {
-              case 'titleAZ':
-                sortByTitleAZ();
-                break;
-              case 'titleZA':
-                sortByTitleZA();
-                break;
-              case 'recent':
-                sortByRecent();
-                break;
-              case 'oldest':
-                sortByOldest();
-                break;
-              default:
-                break;
-            }
-          }}
+          onChange={(e) => setSortCriteria(e.target.value)}
         >
           <option value="titleAZ">Title A-Z</option>
           <option value="titleZA">Title Z-A</option>
@@ -137,7 +118,7 @@ const FavoritesList = ({ favorites }) => {
       </div>
 
       <div className="FavoritesList">
-        {filteredFavorites.map((fav, index) => (
+        {sortedFavorites.map((fav, index) => (
           <div key={index} className="FavoriteItem">
             <div>Title: {fav.title}</div>
             <div>Show: {fav.showTitle}</div>

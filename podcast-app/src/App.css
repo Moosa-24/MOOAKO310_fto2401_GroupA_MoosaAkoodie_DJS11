@@ -61,6 +61,18 @@
   z-index: 1000; /* Ensure it stays on top */
 }
 
+.App-nav{
+  background-color: #1db954; /* Spotify green */
+  display: flex;
+  align-items: right;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  position: fixed; /* Fixed position */
+  top: 0; /* Stick to top */
+  z-index: 1000; /* Ensure it stays on top */
+}
+
 .header-text {
   height: 48px; /* Adjust to your content */
   line-height: 48px; /* Vertically center text */
