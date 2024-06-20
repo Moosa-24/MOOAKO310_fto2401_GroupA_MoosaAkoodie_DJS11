@@ -178,14 +178,12 @@ const PodcastDetail = ({ setCurrentEpisode }) => {
                 <span className="EpisodeTitle">{episode.title}</span>
                 {/* Button to favorite/unfavorite an episode */}
                 <button
-                  className="FavoriteButton"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFavorite(episode);
-                  }}
-                >
-                  {isFavorite(episode.id) ? '💚' : '🤍'}
-                </button>
+                className="FavoriteButton"
+                onClick={() => toggleFavorite(episode)}
+              >
+                {isFavorite(episode.id) ? '💚' : '🤍'}
+              </button>
+
               </div>
             ))
           ) : (
