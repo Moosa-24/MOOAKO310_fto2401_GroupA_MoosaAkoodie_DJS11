@@ -122,9 +122,10 @@ h2 {
 
 .PodcastList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* Change to 4 columns */
   grid-gap: 20px;
 }
+
 
 .PodcastItem {
   background-color: #212121;
