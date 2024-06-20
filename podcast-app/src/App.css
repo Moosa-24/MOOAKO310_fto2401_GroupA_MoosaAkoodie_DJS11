@@ -7,102 +7,117 @@
   justify-content: center;
   height: 100vh;
   background-color: black; 
-  color: white;
+  color: #00ffcc;
 }
 
 .App-logo {
   position: absolute;
   top: 10%;
   pointer-events: none;
-  animation: brightDarkAnimation 10s infinite; /* Apply the animation */
+  animation: brightDarkAnimation 10s infinite;
 }
 
 @keyframes brightDarkAnimation {
-  0% {
+  0%, 100% {
     filter: brightness(3) invert(0); /* Bright */
   }
-  25% {
+  25%, 75% {
     filter: brightness(0.5) invert(1); /* Dark */
   }
   50% {
-    filter: brightness(3) invert(0); /* Bright */
-  }
-  75% {
-    filter: brightness(0.5) invert(1); /* Bright */
-  }
-  100% {
     filter: brightness(3) invert(0); /* Bright */
   }
 }
 
 /* APP CONTAINER */
 .App {
-  display: flex; /* Use flexbox to align items */
-  flex-direction: column; /* Column layout */
-  align-items: center; /* Center align items horizontally */
-  background-color: #121212; /* Dark background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #121212;
   color: white;
-  min-height: 100vh; /* Ensure full viewport height */
-  padding-bottom: 60px; /* Ensure space for fixed player */
+  min-height: 100vh;
+  padding-bottom: 60px;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* HEADER STYLES */
-.App-header {
-  background-color: #1db954; /* Spotify green */
-  height: 64px; /* Fixed height for header */
+.App-header, .App-nav {
+  background: linear-gradient(90deg, #0f0f0f, #1db954);
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-  width: 100%; /* Ensure header spans full width */
-  position: fixed; /* Fixed position */
-  top: 0; /* Stick to top */
-  z-index: 1000; /* Ensure it stays on top */
-}
-
-.App-nav{
-  background-color: #1db954; /* Spotify green */
-  display: flex;
-  align-items: right;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-  position: fixed; /* Fixed position */
-  top: 0; /* Stick to top */
-  z-index: 1000; /* Ensure it stays on top */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #1db954;
 }
 
 .header-text {
-  height: 48px; /* Adjust to your content */
-  line-height: 48px; /* Vertically center text */
+  height: 48px;
+  line-height: 48px;
 }
 
 /* MAIN CONTENT CONTAINER */
 .MainContent {
-  width: 100%; /* Full width */
-  max-width: 1200px; /* Limit maximum width */
-  padding: 20px; /* Padding for content */
-  margin-top: 64px; /* Account for fixed header */
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  margin-top: 64px;
   display: flex;
   justify-content: center;
 }
 
 /* STYLES FOR THE PODCAST LIST */
-
 .PodcastListContainer {
-  background-color: #121212; /* Dark background */
+  background-color: #121212;
   color: white;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  width: 100%; /* Full width */
-  max-width: 1200px; /* Limit maximum width */
-  margin-top: 64px; /* Account for fixed header */
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 64px;
 }
 
 h2 {
   font-size: 1.5em;
   margin-bottom: 20px;
+  text-align: center; 
+}
+
+.CarouselContainer {
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+.CarouselItem {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #181818;
+}
+
+.CarouselItem:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Enhance hover shadow */
+}
+
+.CarouselItemImage {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.CarouselItem:hover .CarouselItemImage {
+  transform: scale(1.1); /* Zoom in on hover */
 }
 
 .PodcastList {
@@ -112,22 +127,28 @@ h2 {
 }
 
 .PodcastItem {
-  background-color: #212121; /* Darker background */
+  background-color: #212121;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .PodcastItem:hover {
   transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .PodcastItemImage {
   width: 100%;
   height: 200px;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.PodcastItem:hover .PodcastItemImage {
+  transform: scale(1.1);
 }
 
 .PodcastDetails {
@@ -142,7 +163,7 @@ h2 {
 
 .PodcastItemSeasons {
   font-size: 0.9em;
-  color: #b3b3b3; /* Slightly lighter color for the seasons text */
+  color: #b3b3b3;
 }
 
 .SeasonPreviewImages {
@@ -153,24 +174,24 @@ h2 {
 
 .SeasonPreviewImage {
   width: 150px;
-  height: auto; /* Maintain aspect ratio */
+  height: auto;
   border-radius: 5px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 /* STYLES FOR PODCAST PLAYER */
-
 .Player {
-  background-color: #1e1e1e; /* Dark background */
+  background-color: #1e1e1e;
   color: white;
   padding: 20px;
   border-radius: 12px;
-  width: 300px; /* Adjust width as needed */
-  position: fixed; /* Fixed position */
-  bottom: 20px; /* Distance from bottom */
-  left: 20px; /* Distance from left */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Slight shadow */
-  z-index: 1000; /* Ensure it stays on top */
+  width: 300px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  border: 1px solid #00ffcc;
 }
 
 .Player h2 {
@@ -186,7 +207,7 @@ h2 {
 .PlayerControls {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Center align buttons */
+  justify-content: center;
   gap: 10px;
   margin-top: 10px;
 }
@@ -202,7 +223,7 @@ h2 {
 }
 
 .PlayerControls button:hover {
-  background-color: #1ed760; /* Lighter green on hover */
+  background-color: #1ed760;
 }
 
 .PlayerControls button:focus {
@@ -215,11 +236,11 @@ h2 {
 }
 
 .PlayerControls button.active {
-  background-color: #1ed760; /* Active state */
+  background-color: #1ed760;
 }
 
 .PlayerControls button.active:hover {
-  background-color: #1db954; /* Maintain Spotify green on active state */
+  background-color: #1db954;
 }
 
 .PlayerProgress {
@@ -253,7 +274,6 @@ h2 {
 }
 
 /* S-BUTTON */
-
 .SeasonButton {
   background-color: #1db954;
   color: white;
@@ -262,14 +282,15 @@ h2 {
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-right: 10px; /* Add margin between buttons */
-  margin-bottom: 10px; /* Add margin between rows of buttons */
-  display: inline-flex; /* Display buttons in a flex container */
-  align-items: center; /* Center align items vertically */
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .SeasonButton:hover {
-  background-color: #1ed760; /* Lighter green on hover */
+  background-color: #1ed760;
 }
 
 .SeasonButton:focus {
@@ -282,11 +303,11 @@ h2 {
 }
 
 .SeasonButton.active {
-  background-color: #1ed760; /* Active state */
+  background-color: #1ed760;
 }
 
 .SeasonButton.active:hover {
-  background-color: #1db954; /* Maintain Spotify green on active state */
+  background-color: #1db954;
 }
 
 .ToggleSeasonsButton,
@@ -303,7 +324,7 @@ h2 {
 
 .ToggleSeasonsButton:hover,
 .CloseSeasonsButton:hover {
-  background-color: #1ed760; /* Lighter green on hover */
+  background-color: #1ed760;
 }
 
 .ToggleSeasonsButton:focus,
@@ -317,55 +338,179 @@ h2 {
 
 /* PODCAST DETAIL / SEASON */
 .PodcastDetailContainer {
-  max-width: 800px; /* Adjust the maximum width based on your design */
-  margin: 0 auto; /* Center align the container */
-  padding: 20px; /* Add padding for spacing */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: white;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.PodcastDetailHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.PodcastDetailHeader img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+}
+
+.PodcastDetailHeader h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.PodcastDetailHeader p {
+  font-size: 1.2em;
+  color: #b3b3b3;
 }
 
 .PodcastDetailImage {
   max-width: 100%; /* Ensure the image scales properly */
-  height: auto; /* Maintain aspect ratio */
-  margin-bottom: 20px; /* Add bottom margin for spacing */
+  height: auto; 
+  margin-bottom: 20px;
+  }
+
+.SeasonContainer {
+  margin-top: 20px;
 }
 
-.PodcastDetailDescription {
-  margin-bottom: 20px; /* Add bottom margin for spacing */
+.SeasonItem {
+  margin-bottom: 20px;
+  background-color: #212121;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.PodcastSeason ul {
-  list-style-type: none; /* Remove default list styling */
-  padding: 0; /* Remove default padding */
+.SeasonItem:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.PodcastSeason li {
-  margin-bottom: 10px; /* Add bottom margin for spacing between episodes */
+.SeasonItemImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
+.SeasonItem:hover .SeasonItemImage {
+  transform: scale(1.1);
+}
+
+.SeasonItemDetails {
+  padding: 10px;
+  text-align: center;
+}
+
+.SeasonItemTitle {
+  font-size: 1.1em;
+  margin: 10px 0;
+  color: #00ffcc;
+}
+
+.SeasonItemEpisodeCount {
+  font-size: 0.9em;
+  color: #b3b3b3;
+}
+
+/* SEARCH FORM */
+.SearchForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  background: linear-gradient(90deg, #0f0f0f, #1db954);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.SearchInput {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.SearchButton {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.SearchButton:hover {
+  background-color: #1ed760;
+}
+
+.SearchButton:focus {
+  outline: none;
+}
+
+.SearchButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* STYLES FOR SORT OPTIONS */
 .SortOptions {
   display: flex;
-  justify-content: flex-end; /* Align items to the right */
-  gap: 10px; /* Space between elements */
-  margin-bottom: 10px; /* Top margin */
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-/* SORT OPTIONS FAVORITES / PODCAST LIST */
 .SortOptions label {
-  line-height: 28px; /* Vertically center label text */
-  margin-right: 10px; /* Right margin for spacing */
+  margin-right: 10px;
+  padding-left: 10px;
+  color: white;
+  font-weight: bold; 
 }
 
-.SortOptions select {
-  padding: 8px 12px; /* Padding for select box */
-  border-radius: 4px; /* Rounded corners */
-  border: 1px solid #ccc; /* Border */
-  background-color: white; /* Background color */
-  color: #333; /* Text color */
-  font-size: 14px; /* Font size */
-  cursor: pointer; /* Pointer cursor */
-  transition: border-color 0.3s ease; /* Smooth transition for border color */
+.SortOptions select, .SortOptions input {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1db954;
+  color: #121212;
+  font-size: 1em;
+  outline: none; /* Remove outline on focus */
 }
 
-.SortOptions select:hover,
-.SortOptions select:focus {
-  border-color: #1db954; /* Highlight border on hover/focus */
+.SortOptions select:focus, .SortOptions input:focus {
+  outline: 2px solid #1db954; /* Add focus outline */
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 768px) {
+  .SortOptions {
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left on small screens */
+  }
+
+  .SortOptions label {
+    margin-bottom: 10px;
+  }
+
+  .SortOptions select, .SortOptions input {
+    margin-bottom: 10px;
+  }
 }

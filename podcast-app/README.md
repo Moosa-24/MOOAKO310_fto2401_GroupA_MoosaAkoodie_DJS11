@@ -98,7 +98,7 @@ For questions or feedback regarding the React Podcast App, feel free to reach ou
    44. The project is easy to navigate and interact with through a web browser - done
    45. ### The project displays well on different devices and all screen sizes, ensuring usability on tablets - NOT DONE
    46. ### The project has extra features that make for a good user-experience - (loading screen done, idk what else)
-   47. User is presented with a sliding carousel of possible shows they might be interested in on the landing page
+   47. User is presented with a sliding carousel of possible shows they might be interested in on the landing page - done
 
 ### Finalizing and Documentation
    48. The README file includes a comprehensive introduction to the project, setup instructions, usage examples, and contact information - done

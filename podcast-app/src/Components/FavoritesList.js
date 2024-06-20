@@ -1,14 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import '../App.css';
 
+// Component for managing and displaying a list of favorites
 const FavoritesList = () => {
-  const [storedFavorites, setStoredFavorites] = useState([]);
-  const [titleFilter, setTitleFilter] = useState('');
-  const [sortCriteria, setSortCriteria] = useState('recent');
-  const [loading, setLoading] = useState(true);
+  const [storedFavorites, setStoredFavorites] = useState([]); // State for storing favorites
+  const [titleFilter, setTitleFilter] = useState(''); // State for filtering favorites by title
+  const [sortCriteria, setSortCriteria] = useState('recent'); // State for sorting criteria
+  const [loading, setLoading] = useState(true); // State for loading indicator
 
+  // Effect to fetch favorites from local storage on component mount
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -24,11 +24,13 @@ const FavoritesList = () => {
     fetchFavorites();
   }, []);
 
+  // Function to format timestamp into a localized string
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
   };
 
+  // Function to remove a favorite from the list
   const removeFromFavorites = (favorite) => {
     const updatedFavorites = storedFavorites.filter(
       (fav) =>
@@ -42,6 +44,7 @@ const FavoritesList = () => {
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
+  // Memoized filtered list of favorites based on title filter
   const filteredFavorites = useMemo(() => {
     return storedFavorites.filter((fav) => {
       const matchesTitle =
@@ -51,6 +54,7 @@ const FavoritesList = () => {
     });
   }, [storedFavorites, titleFilter]);
 
+  // Memoized sorted list of favorites based on sorting criteria
   const sortedFavorites = useMemo(() => {
     let sortedFavorites;
     switch (sortCriteria) {
@@ -81,6 +85,7 @@ const FavoritesList = () => {
     return sortedFavorites;
   }, [filteredFavorites, sortCriteria]);
 
+  // Render loading screen while fetching data
   if (loading) {
     return (
       <div className="loading-screen">
@@ -89,10 +94,12 @@ const FavoritesList = () => {
     );
   }
 
+  // Render favorites list once loaded
   return (
     <div className="FavoritesListContainer">
       <h2>Favorites List</h2>
 
+      {/* Dropdown for sorting options */}
       <div className="SortOptions">
         <label>Sort By:</label>
         <select
@@ -106,6 +113,7 @@ const FavoritesList = () => {
         </select>
       </div>
 
+      {/* Input for filtering favorites by title */}
       <div className="Filters">
         <label>
           Title Filter:
@@ -117,9 +125,10 @@ const FavoritesList = () => {
         </label>
       </div>
 
+      {/* Displaying sorted and filtered favorites */}
       <div className="FavoritesList">
-        {sortedFavorites.map((fav, index) => (
-          <div key={index} className="FavoriteItem">
+        {sortedFavorites.map((fav) => (
+          <div key={`${fav.podcastId}-${fav.seasonId}-${fav.episodeId}`} className="FavoriteItem">
             <div>Title: {fav.title}</div>
             <div>Show: {fav.showTitle}</div>
             <div>Season: {fav.seasonTitle}</div>
@@ -132,10 +141,6 @@ const FavoritesList = () => {
       </div>
     </div>
   );
-};
-
-FavoritesList.propTypes = {
-  favorites: PropTypes.array.isRequired,
 };
 
 export default FavoritesList;
